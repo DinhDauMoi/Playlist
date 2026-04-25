@@ -56,8 +56,8 @@ let allMusic = [
   {
     name: "Hoa Bằng Lăng",
     artist: "Kidz",
-    img: "music-2",
-    src: "music-2",
+    img: "music-10",
+    src: "music-10",
   },
   {
     name: "Hôn Lễ Của Anh",

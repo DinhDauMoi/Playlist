@@ -1,47 +1,61 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;1,600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap");
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
+  font-family: "Outfit", sans-serif;
 }
-*::before,
-*::after {
-  padding: 0;
-  margin: 0;
-}
-/* Keke có font Poppins vô xịn hẵn mn hen :D */
 
-/* Ở đây mình sẽ gán màu cho các biến, để code css mình dùng sẽ clean hơn, đỡ phải nhớ mã màu :D */
 :root {
-  --pink: #ff74a4;
-  --violet: #9f6ea3;
-  --lightback: #515c6f;
-  --white: #fff;
-  --darkwhite: #cecaca;
-  --pinkshadow: #ffcbdd;
-  --lightbshadow: rgba(0, 0, 0, 0.15);
+  --primary: #ff74a4;
+  --secondary: #9f6ea3;
+  --text-main: #ffffff;
+  --text-muted: #e0e0e0;
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-shadow: rgba(0, 0, 0, 0.2);
 }
+
 body {
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: #525d70;
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
   user-select: none;
 }
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 .wrapper {
   width: 380px;
   padding: 25px 30px;
   overflow: hidden;
   position: relative;
-  border-radius: 15px;
-  background: #1f1f27;
-  box-shadow: 0px 6px 15px var(--lightbshadow);
+  border-radius: 20px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 15px 35px var(--glass-shadow);
 }
+
 .wrapper i {
   cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
 }
+
+.wrapper i:hover {
+  transform: scale(1.1);
+}
+
 .top-bar,
 .progress-bar .song-timer,
 .controls,
@@ -51,207 +65,248 @@ body {
   align-items: center;
   justify-content: space-between;
 }
-/* sức mạnh của Flexbox :D Các bạn nào chưa xem vid mình ứng dụng Flexbox thì xem ở bên trên góc phải màn hình nhé :3 */
 
 .top-bar i {
   font-size: 30px;
-  color: var(--lightback);
+  color: var(--text-main);
 }
-.top-bar i:first-child {
-  margin-left: -7px;
-}
+
 .top-bar span {
   font-size: 18px;
-  margin-left: -3px;
-  color: var(--white);
+  color: var(--text-main);
+  font-weight: 500;
 }
+
 .img-area {
   width: 100%;
   height: 256px;
   overflow: hidden;
   margin-top: 25px;
-  border-radius: 15px;
-  box-shadow: 0px 6px 12px var(--lightbshadow);
+  border-radius: 20px;
+  box-shadow: 0 10px 20px var(--glass-shadow);
+  position: relative;
 }
+
 .img-area img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.5s ease;
 }
+
+.wrapper.playing .img-area img {
+  transform: scale(1.05);
+}
+
 .song-details {
   text-align: center;
   margin: 30px 0;
 }
-.song-details p {
-  color: var(--white);
-}
+
 .song-details .name {
-  font-size: 21px;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text-main);
+  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
+
 .song-details .artist {
-  font-size: 18px;
-  opacity: 0.9;
-  line-height: 35px;
+  font-size: 16px;
+  color: var(--text-muted);
+  margin-top: 5px;
+  font-weight: 300;
 }
+
 .progress-area {
   height: 6px;
   width: 100%;
   border-radius: 50px;
-  background: #f0f0f0;
+  background: rgba(255, 255, 255, 0.2);
   cursor: pointer;
+  position: relative;
 }
+
 .progress-area .progress-bar {
   height: inherit;
   width: 0%;
-  position: relative;
   border-radius: inherit;
-  background: linear-gradient(90deg, var(--pink) 0%, var(--violet) 100%);
+  background: linear-gradient(90deg, #fff, #f0f0f0);
+  position: relative;
 }
+
 .progress-bar::before {
   content: "";
   position: absolute;
-  height: 12px;
-  width: 12px;
+  height: 14px;
+  width: 14px;
   border-radius: 50%;
   top: 50%;
-  right: -5px;
+  right: -7px;
   z-index: 2;
   opacity: 0;
   pointer-events: none;
   transform: translateY(-50%);
-  background: inherit;
-  transition: opacity 0.2s ease;
+  background: #fff;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
+
 .progress-area:hover .progress-bar::before {
   opacity: 1;
-  pointer-events: none;
+  transform: translateY(-50%) scale(1.2);
 }
+
 .progress-area .song-timer {
-  margin-top: 2px;
+  margin-top: 8px;
 }
+
 .song-timer span {
-  margin-top: 10px;
   font-size: 13px;
-  color: var(--lightback);
+  color: var(--text-main);
+  font-weight: 400;
 }
+
 .controls {
-  margin: 40px 0 5px 0;
+  margin: 40px 0 15px 0;
 }
+
 .controls i {
   font-size: 28px;
   user-select: none;
-  background: linear-gradient(var(--pink) 0%, var(--violet) 100%);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--text-main);
 }
+
 .controls i:nth-child(2),
 .controls i:nth-child(4) {
-  font-size: 43px;
+  font-size: 40px;
 }
-.controls #next {
-  margin-left: -13px;
-}
+
 .controls .play-pause {
-  height: 54px;
-  width: 54px;
+  height: 60px;
+  width: 60px;
   display: flex;
   cursor: pointer;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background: linear-gradient(var(--white) 0%, var(--darkwhite) 100%);
-  box-shadow: 0px 0px 5px var(--pink);
-}
-.play-pause::before {
-  position: absolute;
-  content: "";
-  height: 43px;
-  width: 43px;
-  border-radius: inherit;
-  background: linear-gradient(var(--pink) 0%, var(--violet) 100%);
-}
-.play-pause i {
-  height: 43px;
-  width: 43px;
-  line-height: 43px;
-  text-align: center;
-  background: inherit;
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  position: absolute;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
 }
 
+.controls .play-pause:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.05);
+}
+
+.play-pause i {
+  font-size: 36px;
+  color: #fff;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Music List */
 .music-list {
   position: absolute;
-  background: var(--white);
+  background: rgba(20, 20, 30, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   width: 100%;
   left: 0;
-  bottom: -55%;
+  bottom: -60%;
   opacity: 0;
   pointer-events: none;
   z-index: 5;
-  padding: 15px 30px;
-  border-radius: 15px;
-  box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.1);
-  transition: all 0.15s ease-out;
+  padding: 20px 30px;
+  border-radius: 20px;
+  box-shadow: 0px -5px 20px rgba(0, 0, 0, 0.4);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
-/* Này mình CSS sẵn henn, do lát có thêm Js thì các bạn mới thấy rõ đc phần này :D 
-Này là cái nút mà bấm vô sẽ hiện list nhạc í  */
+
 .music-list.show {
   bottom: 0;
   opacity: 1;
   pointer-events: auto;
 }
+
 .header .row {
   display: flex;
   align-items: center;
   font-size: 19px;
-  color: var(--lightback);
+  color: var(--text-main);
+  font-weight: 500;
 }
-.header .row i {
-  cursor: default;
-}
+
 .header .row span {
-  margin-left: 5px;
+  margin-left: 10px;
 }
+
 .header #close {
-  font-size: 22px;
-  color: var(--lightback);
+  font-size: 24px;
+  color: var(--text-main);
+  transition: transform 0.3s ease;
 }
+
+.header #close:hover {
+  transform: rotate(90deg);
+}
+
 .music-list ul {
-  margin: 10px 0;
+  margin: 15px 0 0 0;
   max-height: 260px;
   overflow: auto;
 }
 
-/* Do mình làm quen rùi nên nãy giờ mình CSS ước chừng thui chứ khum chính xác đâu nhe :D lát có j cần căn chỉnh thì lát mình quay lại đây he :3 */
 .music-list ul::-webkit-scrollbar {
-  width: 0px;
+  width: 5px;
 }
+
+.music-list ul::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+}
+
 .music-list ul li {
   list-style: none;
   display: flex;
   cursor: pointer;
-  padding-bottom: 10px;
-  margin-bottom: 5px;
-  color: var(--lightback);
-  border-bottom: 1px solid #e5e5e5;
+  padding: 10px 15px;
+  margin-bottom: 8px;
+  color: var(--text-main);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  transition: all 0.2s ease;
 }
-.music-list ul li:last-child {
-  border-bottom: 0px;
+
+.music-list ul li:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateX(5px);
 }
+
 .music-list ul li .row span {
-  font-size: 17px;
-}
-.music-list ul li .row p {
-  opacity: 0.9;
-}
-ul li .audio-duration {
   font-size: 16px;
+  font-weight: 500;
 }
+
+.music-list ul li .row p {
+  opacity: 0.8;
+  font-size: 13px;
+  margin-top: 2px;
+}
+
+ul li .audio-duration {
+  font-size: 14px;
+  font-weight: 500;
+}
+
 ul li.playing {
+  background: rgba(255, 255, 255, 0.2);
+  border-left: 4px solid var(--primary);
   pointer-events: none;
-  color: var(--violet);
+}
+
+ul li.playing .row span,
+ul li.playing .audio-duration {
+  color: var(--primary);
 }

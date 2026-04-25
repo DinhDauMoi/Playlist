@@ -13,12 +13,10 @@ moreMusicBtn = wrapper.querySelector("#more-music"),
 closemoreMusic = musicList.querySelector("#close");
 
 let musicIndex = Math.floor((Math.random() * allMusic.length) + 1);
-isMusicPaused = true;
 let isPlaying = false;
-window.addEventListener("load", ()=>{
-  loadMusic(musicIndex);
-  playingSong(); 
-});
+
+// Khởi tạo bài hát ngay lập tức để tải ảnh nhanh hơn, không cần đợi window.load
+loadMusic(musicIndex);
 
 function loadMusic(indexNumb){
   musicName.innerText = allMusic[indexNumb - 1].name;
@@ -29,7 +27,7 @@ function loadMusic(indexNumb){
 
 
 function playMusic(){
-  wrapper.classList.add("paused");
+  wrapper.classList.add("playing");
   playPauseBtn.querySelector("i").innerText = "pause";
   mainAudio.play();
   isPlaying = true;
@@ -37,7 +35,7 @@ function playMusic(){
 
 
 function pauseMusic(){
-  wrapper.classList.remove("paused");
+  wrapper.classList.remove("playing");
   playPauseBtn.querySelector("i").innerText = "play_arrow";
   mainAudio.pause();
   isPlaying = false;
@@ -73,7 +71,7 @@ function nextMusic(){
 
 
 playPauseBtn.addEventListener("click", ()=>{
-  const isMusicPlay = wrapper.classList.contains("paused");
+  const isMusicPlay = wrapper.classList.contains("playing");
   
   isMusicPlay ? pauseMusic() : playMusic();
   playingSong();
@@ -97,7 +95,7 @@ mainAudio.addEventListener("timeupdate", (e)=>{
   progressBar.style.width = `${progressWidth}%`;
 
   let musicCurrentTime = wrapper.querySelector(".current-time"),
-  musicDuartion = wrapper.querySelector(".max-duration");
+  musicDuration = wrapper.querySelector(".max-duration");
   mainAudio.addEventListener("loadeddata", ()=>{
    
     let mainAdDuration = mainAudio.duration;
@@ -106,7 +104,7 @@ mainAudio.addEventListener("timeupdate", (e)=>{
     if(totalSec < 10){ 
       totalSec = `0${totalSec}`;
     }
-    musicDuartion.innerText = `${totalMin}:${totalSec}`;
+    musicDuration.innerText = `${totalMin}:${totalSec}`;
   });
   
   let currentMin = Math.floor(currentTime / 60);
@@ -196,7 +194,7 @@ for (let i = 0; i < allMusic.length; i++) {
               </li>`;
   ulTag.insertAdjacentHTML("beforeend", liTag); 
 
-  let liAudioDuartionTag = ulTag.querySelector(`#${allMusic[i].src}`);
+  let liAudioDurationTag = ulTag.querySelector(`#${allMusic[i].src}`);
   let liAudioTag = ulTag.querySelector(`.${allMusic[i].src}`);
   liAudioTag.addEventListener("loadeddata", ()=>{
     let duration = liAudioTag.duration;
@@ -205,11 +203,13 @@ for (let i = 0; i < allMusic.length; i++) {
     if(totalSec < 10){ 
       totalSec = `0${totalSec}`;
     };
-    liAudioDuartionTag.innerText = `${totalMin}:${totalSec}`; 
-    liAudioDuartionTag.setAttribute("t-duration", `${totalMin}:${totalSec}`); 
+    liAudioDurationTag.innerText = `${totalMin}:${totalSec}`; 
+    liAudioDurationTag.setAttribute("t-duration", `${totalMin}:${totalSec}`); 
   });
 }
 
+// Cập nhật giao diện list nhạc sau khi đã render xong
+playingSong();
 
 function playingSong(){
   const allLiTag = ulTag.querySelectorAll("li");

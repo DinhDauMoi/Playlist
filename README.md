@@ -1,1 +1,1 @@
-https://dinhdaumoi.github.io/Playlist.github.io
+https://dinhdaumoi.github.io/Playlist/
